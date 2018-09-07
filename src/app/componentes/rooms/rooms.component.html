@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-md-6 mx-auto mt-5">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="text-center">Creacion de Sala</h1>
+        <form (submit)="createRoom()">
+        <div class="form-group">
+          <label for="p1">Player1</label>
+          <input type="p1" name="p1" id="p1" [(ngModel)]="player1.name" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="p2">Player2</label>
+          <input type="p2" name="p2" id="p2" [(ngModel)]="player2.name" class="form-control">
+        </div>
+        <div class="dropdown">
+          <p>Elija el tamaño de la matriz</p>
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{size}}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" (click)="putSize(6)">6</a>
+              <a class="dropdown-item" (click)="putSize(8)">8</a>
+              <a class="dropdown-item" (click)="putSize(10)">10</a>
+            </div>
+        </div>
+        <input type="submit" value="ENVIAR" class="btn btn-primary btn-block btn-lg">
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+

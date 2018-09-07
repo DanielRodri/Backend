@@ -1,0 +1,5 @@
+<div *ngFor="let row of board; let i = index">
+  <div *ngFor="let piece of row; let j = index">
+    <app-piece [piece]=piece (click)="piecePosition(i,j)"></app-piece>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+
+
+
+
+<div class="row">
+    <div class="mx-auto mt-2">
+      <div class="card">
+        <div class="card-body d-flex justify-content-around">
+            <app-board style="display:flex;width:getMatrixSize()*50;flex-wrap:wrap" [playerActualMethod]="playerActual" [board]="matrix"></app-board>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5 mt-2"> 
+      <div class="card">
+        <div class="card-body">
+          <h1 class="text-center">Jugadores</h1>        
+          <h3  *ngIf="player1!==undefined">
+            <img class="Piece" *ngIf="isPlay" src="../../../../assets/Piece1.png" >
+             {{player1.name}}
+             {{isPlay}}
+          </h3>
+          <h3 *ngIf="player2!==undefined">
+            <img class="Piece" *ngIf="!isPlay" src="../../../../assets/Piece2.png">
+            {{player2.name}}
+          </h3> 
+        </div>
+      </div>
+    </div>              
+</div>
+
+  
+
+
+
+
+  

@@ -1,0 +1,21 @@
+//colors
+$black:  black;
+$green:green;
+
+.PiecePlace {
+    display: flex;
+    flex-wrap: wrap;
+	width: 50px;
+    height: 50px;
+	border: 2px solid $black;
+    text-align: center;
+    background: $green;
+}
+
+.Piece{
+    width:100%;
+    height: 100%;
+    word-wrap: break-word;
+    //overflow: auto;//scrollbar para los lados---este no se usa gracias al word-wrap en el caso de las palabras
+    clear: both//scrollbar hacia abajo
+}
