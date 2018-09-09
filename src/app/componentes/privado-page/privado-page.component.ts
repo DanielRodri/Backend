@@ -28,7 +28,6 @@ export class PrivadoPageComponent implements OnInit {
     this.elemento = document.getElementById('app-mensajes');
     this.authService.getAuth().subscribe(auth => {
       if(auth){
-        
         this.nombreUsuario = auth.displayName;
         this.uid=auth.uid;
       }

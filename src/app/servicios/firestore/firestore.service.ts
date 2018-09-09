@@ -40,8 +40,6 @@ export class FirestoreService {
        for(let mensaje of mensajes ){
          this.chats.unshift(mensaje);
        }
-       
-       
        return this.chats;
     })
   }

@@ -8,7 +8,7 @@
           <label for="p1">Player1</label>
           <input type="p1" name="p1" id="p1" [(ngModel)]="player1.name" class="form-control">
         </div>
-        <div class="form-group">
+        <div class="form-group" *ngIf="type!=='PvPO'">
           <label for="p2">Player2</label>
           <input type="p2" name="p2" id="p2" [(ngModel)]="player2.name" class="form-control">
         </div>
@@ -23,7 +23,25 @@
               <a class="dropdown-item" (click)="putSize(10)">10</a>
             </div>
         </div>
-        <input type="submit" value="ENVIAR" class="btn btn-primary btn-block btn-lg">
+        <div class="dropdown">
+            <p>Elija el tipo de partida</p>
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{type}}
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" (click)="putType('PvPL')">PvPL</a>
+                <a class="dropdown-item" (click)="putType('PvPO')">PvPO</a>
+                <a class="dropdown-item" (click)="putType('PvE')">PvE</a>
+              </div>
+          </div>
+        <input type="submit" value="Create" class="btn btn-primary btn-block btn-lg">
+      </form>
+      <form (submit)="joinRoom()">
+        <div class ="form-group">
+            <label for="r">RoomID</label>
+            <input type="r" name="r" id="r" [(ngModel)]="roomId" class="form-control">
+        </div>
+          <input type="submit" value="Join" class="btn btn-primary btn-block btn-lg">
       </form>
       </div>
     </div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../servicios/auth.service';
 import {Router} from '@angular/router';
 import {FlashMessagesService} from 'angular2-flash-messages';
+import { RulesService } from '../../servicios/rules/rules.service';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -13,8 +14,8 @@ export class LoginPageComponent implements OnInit {
   constructor(
     public authService: AuthService,
     public router: Router,
-    public flashMensaje: FlashMessagesService
-
+    public flashMensaje: FlashMessagesService,
+    private rulesService: RulesService
   ) { }
 
   ngOnInit() {
@@ -36,6 +37,13 @@ export class LoginPageComponent implements OnInit {
   onClickGoogleLogin(){
     this.authService.loginGoogle()
       .then ((res)=> {
+        if(res.additionalUserInfo.isNewUser){
+          //this.rulesService.createUser(res.user.uid)
+          //this.rulesService.prueba({uid:res.user.uid});
+        }
+        else{
+          console.log("viejo")
+        }
         this.router.navigate(['/privado']);
       }).catch (err => console.log(err.message));
 
