@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class MatchService {
-  private socket = io('http://localhost:3000')
+  private socket = io('https://othello-027.herokuapp.com')
   constructor(
   ) { }
 
