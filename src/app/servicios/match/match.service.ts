@@ -5,18 +5,33 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class MatchService {
+  //localhost:3000
   private socket = io('https://othello-027.herokuapp.com')
-  constructor(
-  ) { }
+  constructor() 
+  {
+  }
 
+  checkJoinRoom(data){
+    this.socket.emit('checkJoinRoom',data)
+    let observable = new Observable<any>(observer=>{
+      //console.log("Crea un observer")
+     
+     this.socket.on('joinChannel',(data)=>{
+        observer.next(data);
+        //return data;
+     });
+     return () =>{this.socket.disconnect();}
+   });
+   return observable;
+  }
   joinRoom(data){
-    this.socket.emit('join',data)
+  return this.socket.emit('joinRoom',data)
   }
   createRoom(data){
-    this.socket.emit('createRoom',data)
+    return this.socket.emit('createRoom',data)
   }
   doMove(data){
-    this.socket.emit('doMove',data)
+    return this.socket.emit('doMove',data)
   }
   matrixReceived(){
     let observable = new Observable<any>(observer=>{
@@ -43,6 +58,7 @@ export class MatchService {
       });
       return () =>{this.socket.disconnect();}
     });
+    console.log("servicio, observable prueba")
     return observable
   }
 }

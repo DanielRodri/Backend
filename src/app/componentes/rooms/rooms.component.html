@@ -4,38 +4,73 @@
       <div class="card-body">
         <h1 class="text-center">Creacion de Sala</h1>
         <form (submit)="createRoom()">
-        <div class="form-group">
-          <label for="p1">Player1</label>
-          <input type="p1" name="p1" id="p1" [(ngModel)]="player1.name" class="form-control">
+          <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="p1">Player1</label>
+                      <input type="p1" name="p1" id="p1" [(ngModel)]="player1.name" class="form-control">
+                    </div>
+                    <div class="form-group" *ngIf="type!=='PvPO'">
+                      <label for="p2">Player2</label>
+                      <input type="p2" name="p2" id="p2" [(ngModel)]="player2.name" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <hr class="my-2">
+        <div class="row justify-content-around">
+            <div class="dropdown col">
+                <p>Elija el tamaño de la matriz</p>
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{size}}
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" (click)="putSize(6)">6</a>
+                    <a class="dropdown-item" (click)="putSize(8)">8</a>
+                    <a class="dropdown-item" (click)="putSize(10)">10</a>
+                  </div>
+              </div>
+              <div class="dropdown col">
+                  <p>Elija el tipo de partida</p>
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {{type}}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" (click)="putType('PvPL')">PvPL</a>
+                      <a class="dropdown-item" (click)="putType('PvPO')">PvPO</a>
+                      <a class="dropdown-item" (click)="putType('PvE')">PvE</a>
+                    </div>
+                </div>
         </div>
-        <div class="form-group" *ngIf="type!=='PvPO'">
-          <label for="p2">Player2</label>
-          <input type="p2" name="p2" id="p2" [(ngModel)]="player2.name" class="form-control">
-        </div>
-        <div class="dropdown">
-          <p>Elija el tamaño de la matriz</p>
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{size}}
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" (click)="putSize(6)">6</a>
-              <a class="dropdown-item" (click)="putSize(8)">8</a>
-              <a class="dropdown-item" (click)="putSize(10)">10</a>
+        <hr class="my-2">
+        <div class="row justify-content-around">
+            <div class="dropdown col">
+                <p>Elija la ficha del Player1</p>
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img src="../../../assets/{{player1.pieceImg}}.png">{{player1.pieceImg}}
+                  </button>
+                  <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
+                      <div *ngFor="let piece of pieces; let i = index">
+                        <a *ngIf="player2.pieceImg!=piece" class="dropdown-item" (click)="putPiece(1,piece)"><img src="../../../assets/{{pieces[i]}}.png">{{piece}}</a>
+                      </div>
+                  </div>
+            </div>
+            <div class="dropdown col">
+                  <p>Elija la ficha del Player2</p>
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="../../../assets/{{player2.pieceImg}}.png">{{player2.pieceImg}}
+                    </button>
+                    <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
+                      <div *ngFor="let piece of pieces; let i = index">
+                          <a *ngIf="player1.pieceImg!=piece" class="dropdown-item" (click)="putPiece(2,piece)"><img src="../../../assets/{{piece}}.png">{{piece}}</a>
+                      </div>
+                    </div>
             </div>
         </div>
-        <div class="dropdown">
-            <p>Elija el tipo de partida</p>
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{type}}
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" (click)="putType('PvPL')">PvPL</a>
-                <a class="dropdown-item" (click)="putType('PvPO')">PvPO</a>
-                <a class="dropdown-item" (click)="putType('PvE')">PvE</a>
-              </div>
-          </div>
+        <br>
         <input type="submit" value="Create" class="btn btn-primary btn-block btn-lg">
       </form>
+      <hr class="my-4">
+      <h1 class="text-center">Ingresar a Sala</h1>
       <form (submit)="joinRoom()">
         <div class ="form-group">
             <label for="r">RoomID</label>

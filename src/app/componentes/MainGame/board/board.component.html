@@ -1,5 +1,11 @@
-<div *ngFor="let row of board; let i = index">
-  <div *ngFor="let piece of row; let j = index">
-    <app-piece [piece]=piece (click)="piecePosition(i,j)"></app-piece>
-  </div>
-</div>
+
+    <div *ngFor="let row of board; let i = index">
+        <div *ngFor="let piece of row; let j = index">
+          <div *ngIf="user!=undefined">
+            <app-piece *ngIf="user.piece==1" [piece]=piece [piece1Img]="user.pieceImg" [piece2Img]="user2.pieceImg" (click)="piecePosition(i,j)"></app-piece>
+            <app-piece *ngIf="user.piece==2" [piece]=piece [piece1Img]="user2.pieceImg" [piece2Img]="user.pieceImg"(click)="piecePosition(i,j)"></app-piece>
+          </div>
+        </div>
+    </div>
+
+

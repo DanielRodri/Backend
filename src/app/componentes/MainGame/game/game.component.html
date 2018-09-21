@@ -1,8 +1,9 @@
 <div class="row">
+    <app-privado-page></app-privado-page>
     <div class="mx-auto mt-2">
       <div class="card">
         <div class="card-body d-flex justify-content-around">
-            <app-board style="display:flex;width:getMatrixSize()*50;flex-wrap:wrap" [board]="matrix"></app-board>
+            <app-board style="display:flex;width:getMatrixSize()*64;flex-wrap:wrap" [roomId]="roomId" [actualPlayer]="actualPlayer" [user]="user" [user2]="user2" [board]="matrix"></app-board>
         </div>
       </div>
     </div>
@@ -10,13 +11,12 @@
       <div class="card">
         <div class="card-body">
           <h1 class="text-center">Jugadores</h1>        
-          <h3  *ngIf="player1!==undefined">
-            <img class="Piece" *ngIf="isPlay" src="../../../../assets/Piece1.png" >
+          <h3  *ngIf="user!==undefined">
+            <img class="Piece" id="imgPiece" *ngIf="user.piece===actualPlayer.piece" src="../../../../assets/{{user.pieceImg}}.png">
              {{user.name}}
-             {{isPlay}}
           </h3>
-          <h3 *ngIf="player2!==undefined">
-            <img class="Piece" *ngIf="!isPlay" src="../../../../assets/Piece2.png">
+          <h3 *ngIf="user2!==undefined">
+            <img class="Piece" id="imgPiece2" *ngIf="user2.piece===actualPlayer.piece" src="../../../../assets/{{user2.pieceImg}}.png">
             {{user2.name}}
           </h3> 
         </div>
