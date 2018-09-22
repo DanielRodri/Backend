@@ -17,8 +17,8 @@ const routes: Routes = [
   {path: 'login', component: LoginPageComponent},
   {path: 'register', component: RegisterPageComponent},
   {path: 'privado', component: PrivadoPageComponent, canActivate:[AuthGuard] },
-  {path: 'game'/*/:term'*/, component: GameComponent},
-  {path: 'rooms', component: RoomsComponent},
+  {path: 'game'/*/:term'*/, component: GameComponent, canActivate:[AuthGuard]},
+  {path: 'rooms', component: RoomsComponent, canActivate:[AuthGuard]},
   {path: '**', component: NotFoundPageComponent},
 ];
 

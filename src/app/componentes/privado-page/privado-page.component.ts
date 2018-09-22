@@ -30,6 +30,12 @@ export class PrivadoPageComponent implements OnInit {
       if(auth){
         this.nombreUsuario = auth.displayName;
         this.uid=auth.uid;
+        if (auth.displayName===null){
+          var str = auth.email; 
+          var splitted = str.split("@", 1); 
+          this.nombreUsuario = splitted[0];
+          
+        }
       }
     });
   }
