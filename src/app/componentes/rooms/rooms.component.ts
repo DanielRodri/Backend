@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./rooms.component.scss']
 })
 export class RoomsComponent implements OnInit {
-
+  list: Array<number> = [1, 2, 3,3,3,3,3,3,3,3,3,3];
   constructor() {
    }
   
