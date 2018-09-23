@@ -42,7 +42,17 @@ export class BoardComponent implements OnInit {
             console.log("gubo un cambio")
             console.log("matriz vieja: "+this.board)
             console.log("matriz nueva: "+aux.matrix)
-            this.matchService.doMove({matrix:aux.matrix,actualPlayer:{piece:this.user2.piece,uid:this.user2.uid},roomId:this.roomId})
+            if(this.user.uid===this.user2.uid){
+              if(this.user.piece===this.actualPlayer.piece){
+                this.matchService.doMove({matrix:aux.matrix,actualPlayer:{piece:this.user2.piece,uid:this.user2.uid},roomId:this.roomId})
+              }
+              else{
+                this.matchService.doMove({matrix:aux.matrix,actualPlayer:{piece:this.user.piece,uid:this.user.uid},roomId:this.roomId})
+              }
+            }
+            else{
+              this.matchService.doMove({matrix:aux.matrix,actualPlayer:{piece:this.user2.piece,uid:this.user2.uid},roomId:this.roomId})
+            }
           }
           else{
             console.log("no hubo cambio")

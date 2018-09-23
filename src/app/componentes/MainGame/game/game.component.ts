@@ -19,6 +19,7 @@ export class GameComponent implements OnInit{
   private user2:{name:string,uid:string,piece:number,pieceImg:string}
   private type :string 
   private roomId:any
+  private boardStyle:any
 
   constructor(private rulesService: RulesService,
   private matchService:MatchService,
@@ -30,6 +31,7 @@ export class GameComponent implements OnInit{
     .subscribe(data=>{this.matrix=data})
     this.matchService.playerReceived()
     .subscribe(data=>{
+      console.log("observer recibio: "+data)
       this.actualPlayer=data
       if(this.actualPlayer.piece!==0&&this.roomId!==undefined){
         this.prepareGame()
@@ -45,6 +47,13 @@ export class GameComponent implements OnInit{
     
   }
   prepareGame(){
+    this.boardStyle={'margin': '0',
+      'padding': '0',
+      'box-sizing': 'border-box',
+      'display':'flex',
+      'width':(this.getMatrixSize()*64).toString()+"px",
+      'flex-wrap':'wrap'
+    }
     this.authService.getAuth().subscribe(auth => {
       if(auth){
         this.rulesService.getUsers({roomId:this.roomId}).subscribe(res=>{

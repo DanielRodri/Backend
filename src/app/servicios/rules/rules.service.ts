@@ -6,13 +6,13 @@ import { Http, Response } from '@angular/http';
 })
 export class RulesService {
 
-  private API_URL = 'https://othello-027.herokuapp.com/api/game';
+  private API_URL = 'http://localhost:3000/api/game';
   //matrix:Array<any>
 
   constructor(private http: Http) {
     
    }
-   //http://localhost:3000
+   //https://othello-027.herokuapp.com/api/game
    tryMove(posicion: any) {
     return this.http.put(this.API_URL+'/rules'+'/'+posicion.posX+'/'+posicion.posY, posicion);
   }
