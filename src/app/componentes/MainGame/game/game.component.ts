@@ -1,7 +1,6 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { RulesService } from '../../../servicios/rules/rules.service'
-import { ActivatedRoute } from '@angular/router';
-import { Input } from '@angular/core';
+import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';import { Input } from '@angular/core';
 import { NgOnChangesFeature } from '../../../../../node_modules/@angular/core/src/render3';
 import {MatchService} from '../../../servicios/match/match.service'
 import { AuthService } from '../../../servicios/auth.service';
@@ -24,14 +23,37 @@ export class GameComponent implements OnInit{
   constructor(private rulesService: RulesService,
   private matchService:MatchService,
   public authService: AuthService,
-  public flashMensaje: FlashMessagesService
+  public flashMensaje: FlashMessagesService,
+  private router: Router
   /*private route: ActivatedRoute*/) {
     /*this.route.params.subscribe(params=>this.roomId=params['term'])*/
+    this.router.events.subscribe( (event: Event) => {
+
+      if (event instanceof NavigationStart) {
+          // Show loading indicator
+          if(this.roomId!==undefined){//esto es para saber si está saliendo
+            this.rulesService.updateMatch({roomId:this.roomId,actualPlayer:this.actualPlayer,matrix:this.matrix}).subscribe(res=>{});
+            this.matchService.leaveRoom({roomId:this.roomId})
+          }
+          else{
+            //console.log("Entrando de Room.....Cargando......")
+          }
+      }
+
+      if (event instanceof NavigationEnd) {
+          // Hide loading indicator
+      }
+      if (event instanceof NavigationError) {
+          // Hide loading indicator
+          // Present error to user
+          console.log(event.error);
+      }
+  });
     this.matchService.matrixReceived()
     .subscribe(data=>{this.matrix=data})
     this.matchService.playerReceived()
     .subscribe(data=>{
-      console.log("observer recibio: "+data)
+      //console.log("observer recibio: "+data)
       this.actualPlayer=data
       if(this.actualPlayer.piece!==0&&this.roomId!==undefined){
         this.prepareGame()
@@ -58,7 +80,7 @@ export class GameComponent implements OnInit{
       if(auth){
         this.rulesService.getUsers({roomId:this.roomId}).subscribe(res=>{
           let aux = res.json()
-          console.log(aux)
+          //console.log(aux)
           //this.type=aux.type;
           if(auth.uid===aux.player1.uid){
             this.user=aux.player1
@@ -71,9 +93,12 @@ export class GameComponent implements OnInit{
         });
       }
     });
-    
+    //this.rulesService.updateMatch({roomId:this.roomId,actualPlayer:this.actualPlayer,matrix:this.matrix});
   }
   getMatrixSize(){
     return this.matrix.length;
+  }
+  surrender(){
+    this.rulesService.surrender({roomId:this.roomId,playerUid:this.user.uid}).subscribe(res=>{});
   }
 }

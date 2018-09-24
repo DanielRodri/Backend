@@ -1,22 +1,24 @@
  
 <h1 class="mt-5 text-center">Rooms Disponibles</h1>
-<div class="row">
-    <div *ngFor="let piece of list; let i = index" >   
-    <div class="col">    
-    <div class="card mt-2" style="width: 12rem;">
-        <img class="card-img-top" src="../../../../assets/logo.png" alt="Card image cap">
-        <ul class="list-group list-group-flush">
-        <li class="list-group-item">Host:</li>
-        <li class="list-group-item">ID:</li>
-        <li class="list-group-item">Size:</li>
-        <li class="list-group-item">Piece1:</li>
-        <li class="list-group-item">Piece2:</li>
-        </ul>
-        <div class="card-body">
-            <button type="button" class="btn btn-primary btn-block">JOIN</button>
-        </div>
-    </div>
-    </div>     
-</div>
+<div *ngIf="list!=undefined">
+  <div class="row">
+      <div *ngFor="let piece of list; let i = index" >   
+          <div class="col">    
+            <div class="card mt-2" style="width: 13rem;">
+              <img class="card-img-top" src="../../../../assets/logo.png" alt="Card image cap">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Host: {{piece.data.player1.name}}</li>
+                <li class="list-group-item">ID:{{piece.roomId}}</li>
+                <li class="list-group-item">Size: {{piece.data.tamanno}}</li>
+                <li class="list-group-item">Piece1: {{piece.data.player1.pieceImg}}</li>
+                <li class="list-group-item">Piece2: {{piece.data.player2.pieceImg}}</li>
+              </ul>
+              <div class="card-body">
+                <button type="button" (click)="join(piece)" class="btn btn-primary btn-block">JOIN</button>
+              </div>
+            </div>
+          </div>     
+      </div>
+  </div>
 </div>  
 

@@ -26,23 +26,18 @@ export class BoardComponent implements OnInit {
     //alert("game started");
   }
   piecePosition(i,j){
-    console.log("actualPlayer apenas da click es: "+this.actualPlayer.uid)
     if(this.actualPlayer!== undefined&&this.board!==undefined){
       if(this.actualPlayer.uid==='Computer'){
         console.log("computer")
       }
       else if (this.actualPlayer.uid===this.user.uid&&this.actualPlayer.piece!==0){//pregunta si es el usuario el que esta jugando
-        console.log("se logro")
-        console.log("antes de moverse, el actualPlayer es: "+this.actualPlayer.piece)
+
         let posiciones = {matrix:this.board,posX:i,posY:j,actualPlayer:this.actualPlayer.piece}
-        console.log(posiciones)
         this.rulesService.tryMove(posiciones).subscribe(res=>{
           let aux = res.json();
           if(aux.validate){//pregunta si hubo un cambio
-            console.log("gubo un cambio")
-            console.log("matriz vieja: "+this.board)
-            console.log("matriz nueva: "+aux.matrix)
-            if(this.user.uid===this.user2.uid){
+
+            if(this.user.uid===this.user2.uid){//local
               if(this.user.piece===this.actualPlayer.piece){
                 this.matchService.doMove({matrix:aux.matrix,actualPlayer:{piece:this.user2.piece,uid:this.user2.uid},roomId:this.roomId})
               }

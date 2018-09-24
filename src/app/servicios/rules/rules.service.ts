@@ -22,6 +22,9 @@ export class RulesService {
   getUsers(id: any){
     return this.http.put(this.API_URL+'/getUsers/id',id);
   }
+  getMatch(id: any){
+    return this.http.put(this.API_URL+'/getMatch/id',id);
+  }
   createMatchPvPL(size: any){
     return this.http.post(this.API_URL+'/createMatchPvPL',size);
   }
@@ -34,12 +37,22 @@ export class RulesService {
   joinMatchPvPO(roomId: any){
     return this.http.put(this.API_URL+'/joinMatchPvPO',roomId);
   }
+  updateMatch(roomId: any){
+    return this.http.put(this.API_URL+'/updateMatch/roomId',roomId);
+  }
+  surrender(roomId: any){
+    return this.http.put(this.API_URL+'/surrender/roomId',roomId);
+  }
   getActualPlayer(){
     return this.http.get(this.API_URL+'/playerActual');
   }
   getPersonas(){
     return this.http.get(this.API_URL+'/getPersonas');
   }
+  getAllOnlineRooms(roomId:any){
+    return this.http.put(this.API_URL+'/getAllOnlineRooms',roomId);
+  }
+  
   /*private handleError (error: any) {
     let errMsg = (error.message) ? error.message :
     error.status ? `${error.status} - ${error.statusText}` : 'Server error';

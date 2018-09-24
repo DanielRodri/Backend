@@ -30,6 +30,9 @@ export class MatchService {
   createRoom(data){
     return this.socket.emit('createRoom',data)
   }
+  leaveRoom(data){
+    return this.socket.emit('leaveRoom',data)
+  }
   doMove(data){
     return this.socket.emit('doMove',data)
   }
@@ -58,7 +61,17 @@ export class MatchService {
       });
       return () =>{this.socket.disconnect();}
     });
-    console.log("servicio, observable prueba")
+    //console.log("servicio, observable prueba")
+    return observable
+  }
+  availableMatches(){
+    let observable = new Observable<any>(observer=>{
+      this.socket.on('matches',(data)=>{
+         observer.next(data);
+      });
+      return () =>{this.socket.disconnect();}
+    });
+    //console.log("servicio, observable prueba")
     return observable
   }
 }
