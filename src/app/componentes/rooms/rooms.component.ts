@@ -11,6 +11,7 @@ import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '
 })
 export class RoomsComponent implements OnInit {
   list: Array<any>;
+  list2: Array<any>;
   private userUid:string
   private userName:string
   constructor(private rulesService: RulesService,
@@ -30,7 +31,7 @@ export class RoomsComponent implements OnInit {
 
       if (event instanceof NavigationStart) {
           // Show loading indicator
-          this.getMatches();
+          //this.getMatches();
       }
 
       if (event instanceof NavigationEnd) {
@@ -51,11 +52,16 @@ export class RoomsComponent implements OnInit {
     this.rulesService.getAllOnlineRooms({userUid:this.userUid}).subscribe(res=>{
       let aux = res.json()
       this.list=aux.rooms
-      console.log(this.list+"....."+this.list.length)
+      //console.log(this.list+"....."+this.list.length)
+    })
+    this.rulesService.getAllPlayingRooms({userUid:this.userUid}).subscribe(res=>{
+      let aux = res.json()
+      this.list2=aux.rooms
+      //console.log(this.list+"....."+this.list.length)
     })
   }
   join(piece:any){
-    this.matchService.checkJoinRoom({roomId:piece.roomId}).subscribe(data=>{
+    this.matchService.checkJoinRoom({roomId:piece.roomId}).then(data=>{
       if(data!==3){
         if(data===1){
           this.rulesService.joinMatchPvPO({roomId:piece.roomId,player:{name:this.userName,uid:this.userUid}}).subscribe(res=>{
@@ -75,15 +81,43 @@ export class RoomsComponent implements OnInit {
               }
             }
             this.rulesService.joinMatchPvPO({roomId:piece.roomId,player:{name:this.userName,uid:this.userUid}}).subscribe(res=>{
-              this.matchService.createRoom({roomId:piece.roomId,matrix:auxMatrix2,actualPlayer:{uid:piece.data.actPlayer.uid,piece:1}})
+              this.matchService.createRoom({roomId:piece.roomId,matrix:auxMatrix2,actualPlayer:{uid:piece.data.actPlayer.uid,piece:piece.data.actPlayer.piece}})
               this.goRoom() 
             })
-      }  
-    }
-      else{
-        //this.flashMensaje.show('Error al ingresar a la sala: '+this.roomId+'. Sala llena',{cssClass: 'alert-danger', timeout: 4000});
+        }  
       }
-    });
+        else{
+          //this.flashMensaje.show('Error al ingresar a la sala: '+this.roomId+'. Sala llena',{cssClass: 'alert-danger', timeout: 4000});
+        }
+    })
+      
+  }
+  joinPlaying(piece:any){
+    this.matchService.checkJoinRoom({roomId:piece.roomId}).then(data=>{
+      if(data!==3){
+        if(data===1){
+            this.matchService.joinRoom({roomId:piece.roomId})
+        }
+        else{//data es 2
+            let auxMatrix2 = new Array(piece.data.tamanno);
+            let auxMatrix = piece.data.matrix.split(",").map(Number);
+            let cont=0
+            for(var i =0;i<piece.data.tamanno;i++){
+              auxMatrix2[i] = new Array(piece.data.tamanno);
+              for(var j =0;j<piece.data.tamanno;j++){
+                auxMatrix2[i][j]=auxMatrix[cont]
+                cont++
+              }
+            }
+              this.matchService.createRoom({roomId:piece.roomId,matrix:auxMatrix2,actualPlayer:{uid:piece.data.actPlayer.uid,piece:piece.data.actPlayer.piece}})
+        }
+        this.goRoom()  
+      }
+        else{
+          //this.flashMensaje.show('Error al ingresar a la sala: '+this.roomId+'. Sala llena',{cssClass: 'alert-danger', timeout: 4000});
+        }
+    })
+      
   }
   goRoom(){
     let items= ['game'];

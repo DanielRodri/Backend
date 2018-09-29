@@ -52,6 +52,9 @@ export class RulesService {
   getAllOnlineRooms(roomId:any){
     return this.http.put(this.API_URL+'/getAllOnlineRooms',roomId);
   }
+  getAllPlayingRooms(roomId:any){
+    return this.http.put(this.API_URL+'/getAllPlayingRooms',roomId);
+  }
   
   /*private handleError (error: any) {
     let errMsg = (error.message) ? error.message :
