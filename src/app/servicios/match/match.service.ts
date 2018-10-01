@@ -140,5 +140,15 @@ export class MatchService {
     return observable
     //return this.ob5
   }
+  pointsReceived(){
+    const observable = new Observable<any>(observer=>{
+      this.socket.on('points',(data)=>{
+         observer.next(data);
+      });
+      return () =>{this.socket.disconnect();}
+    });
+    return observable
+    //return this.ob5
+  }
 }
 

@@ -1,0 +1,35 @@
+[debug] [2018-10-01T05:00:34.562Z] ----------------------------------------------------------------------
+[debug] [2018-10-01T05:00:34.566Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Misa\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase deploy
+[debug] [2018-10-01T05:00:34.567Z] CLI Version:   3.19.3
+[debug] [2018-10-01T05:00:34.567Z] Platform:      win32
+[debug] [2018-10-01T05:00:34.567Z] Node Version:  v8.11.1
+[debug] [2018-10-01T05:00:34.568Z] Time:          Sun Sep 30 2018 23:00:34 GMT-0600 (Hora estándar, América Central)
+[debug] [2018-10-01T05:00:34.568Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-10-01T05:00:34.629Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-10-01T05:00:34.632Z] > authorizing via signed-in user
+[debug] [2018-10-01T05:00:34.636Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-10-01T05:00:34.636Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/7xPsUpUJhlMbhI84yQjEq9ka5zVXdd5KL6MY0FDx9Ok',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Sun Sep 30 2018 23:00:34 GMT-0600 (Hora estándar, América Central)
+[debug] [2018-10-01T05:00:35.334Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-01T05:00:35.415Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/web-game-fc8f9  
+  
+ Sun Sep 30 2018 23:00:35 GMT-0600 (Hora estándar, América Central)
+[debug] [2018-10-01T05:00:36.120Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-01T05:00:36.124Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/web-game-fc8f9/tokens  
+  
+ Sun Sep 30 2018 23:00:36 GMT-0600 (Hora estándar, América Central)
+[debug] [2018-10-01T05:00:36.626Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'web-game-fc8f9'...
+[info] 
+[info] i  deploying hosting
+[info] i  hosting: preparing dist/web-game directory for upload...
+[debug] [2018-10-01T05:00:38.546Z] >>> HTTP REQUEST PUT https://deploy.firebase.com/v1/hosting/web-game-fc8f9/uploads/-LNhzyFwxmuC-LKqHZTD?fileCount=31&message=  
+  
+ Sun Sep 30 2018 23:00:38 GMT-0600 (Hora estándar, América Central)

@@ -15,9 +15,9 @@ export class RoomsComponent implements OnInit {
   private userUid:string
   private userName:string
   constructor(private rulesService: RulesService,
-    public authService: AuthService,
-    private matchService: MatchService,
-    private router:Router) {
+              public authService: AuthService,
+              private matchService: MatchService,
+              private router:Router) {
     this.authService.getAuth().subscribe(auth => {
       if(auth){
         this.userUid=auth.uid;
@@ -25,26 +25,7 @@ export class RoomsComponent implements OnInit {
         this.getMatches();
       }
     });
-    //get del array de partidas disponibles
-    //get del array de partidas jugando
-    this.router.events.subscribe( (event: Event) => {
-
-      if (event instanceof NavigationStart) {
-          // Show loading indicator
-          //this.getMatches();
-      }
-
-      if (event instanceof NavigationEnd) {
-          //this.getMatches();
-          // Hide loading indicator
-      }
-      if (event instanceof NavigationError) {
-          // Hide loading indicator
-          // Present error to user
-          console.log(event.error);
-      }
-  });
-   }
+  }
   
   ngOnInit() {
   }
@@ -52,12 +33,10 @@ export class RoomsComponent implements OnInit {
     this.rulesService.getAllOnlineRooms({userUid:this.userUid}).subscribe(res=>{
       let aux = res.json()
       this.list=aux.rooms
-      //console.log(this.list+"....."+this.list.length)
     })
     this.rulesService.getAllPlayingRooms({userUid:this.userUid}).subscribe(res=>{
       let aux = res.json()
       this.list2=aux.rooms
-      //console.log(this.list+"....."+this.list.length)
     })
   }
   join(piece:any){
@@ -81,7 +60,7 @@ export class RoomsComponent implements OnInit {
               }
             }
             this.rulesService.joinMatchPvPO({roomId:piece.roomId,player:{name:this.userName,uid:this.userUid}}).subscribe(res=>{
-              this.matchService.createRoom({roomId:piece.roomId,matrix:auxMatrix2,actualPlayer:{uid:piece.data.actPlayer.uid,piece:piece.data.actPlayer.piece}})
+              this.matchService.createRoom({roomId:piece.roomId,matrix:auxMatrix2,actualPlayer:{uid:piece.data.actPlayer.uid,piece:piece.data.actPlayer.piece,points:[2,2]}})
               this.goRoom() 
             })
         }  
@@ -109,7 +88,9 @@ export class RoomsComponent implements OnInit {
                 cont++
               }
             }
-              this.matchService.createRoom({roomId:piece.roomId,matrix:auxMatrix2,actualPlayer:{uid:piece.data.actPlayer.uid,piece:piece.data.actPlayer.piece}})
+            this.rulesService.getPuntaje({matrix:auxMatrix2}).subscribe(points=>{
+              this.matchService.createRoom({roomId:piece.roomId,matrix:auxMatrix2,actualPlayer:{uid:piece.data.actPlayer.uid,piece:piece.data.actPlayer.piece,points:points.json()}})            
+            })
         }
         this.goRoom()  
       }

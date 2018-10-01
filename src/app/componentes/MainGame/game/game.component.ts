@@ -18,8 +18,9 @@ export class GameComponent implements OnInit, OnDestroy{
   private actualPlayer:{uid:string,piece:number}
   private user:{name:string,uid:string,piece:number,pieceImg:string}
   private user2:{name:string,uid:string,piece:number,pieceImg:string}
-  //private type :string 
+  private difficulty :number 
   private roomId:any
+  private points={user:2,user2:2}
   private boardStyle:any
   private subscription: Subscription;
   private routerEvents:any
@@ -32,6 +33,7 @@ export class GameComponent implements OnInit, OnDestroy{
   /*private route: ActivatedRoute*/) {
     /*this.route.params.subscribe(params=>this.roomId=params['term'])*/
     this.subscription=new Subscription()
+
   }
   ngOnInit() {
     console.log("entroOnInit")
@@ -50,7 +52,7 @@ export class GameComponent implements OnInit, OnDestroy{
     .subscribe(data=>{this.matrix=data})
     let observer2=this.matchService.playerReceived()
     .subscribe(data=>{
-      console.log("observer recibio: "+data)
+      //console.log("observer recibio: "+data)
       this.actualPlayer=data
       if(this.actualPlayer.piece!==0&&this.roomId!==undefined){
         this.prepareGame()
@@ -61,33 +63,28 @@ export class GameComponent implements OnInit, OnDestroy{
     this.roomId=data
     this.prepareGame()
     })
+    let observer4=this.matchService.pointsReceived()
+    .subscribe(data=>{
+      if(data!==null)
+        this.putPoints(data)
+    })
     this.subscription.add(observer1)
     this.subscription.add(observer2)
     this.subscription.add(observer3)
+    this.subscription.add(observer4)
   }
-  /*assignRouterEvents(){
-    this.routerEvents=this.router.events.subscribe( (event: Event) => {
-
-      if (event instanceof NavigationStart) {
-          // Show loading indicator
-          if(this.roomId!==undefined){//esto es para saber si está saliendo
-            
-          }
-          else{
-            //console.log("Entrando de Room.....Cargando......")
-          }
+  putPoints(data){
+    if(this.user!==undefined){
+      if(this.user.piece===1){
+        this.points.user=data[0]
+        this.points.user2=data[1]
       }
-
-      if (event instanceof NavigationEnd) {
-          // Hide loading indicator
+      else{
+        this.points.user=data[1]
+        this.points.user2=data[0]
       }
-      if (event instanceof NavigationError) {
-          // Hide loading indicator
-          // Present error to user
-          console.log(event.error);
-      }
-  });
-  }*/
+    }
+  }
   prepareGame(){
     this.boardStyle={'margin': '0',
       'padding': '0',
@@ -105,6 +102,9 @@ export class GameComponent implements OnInit, OnDestroy{
           if(auth.uid===aux.player1.uid){
             this.user=aux.player1
             this.user2=aux.player2
+            if(this.user2.uid==='Computer'){
+              this.assignDifficulty()
+            }
           }
           else{
             this.user2=aux.player1
@@ -113,6 +113,17 @@ export class GameComponent implements OnInit, OnDestroy{
         });
       }
     });
+  }
+  assignDifficulty(){
+    if(this.user2.name==='LordWar'){
+      this.difficulty=1
+    }
+    else if(this.user2.name==='AzaNT'){
+      this.difficulty=2      
+    }
+    else{
+      this.difficulty=3      
+    }
   }
   getMatrixSize(){
     return this.matrix.length;

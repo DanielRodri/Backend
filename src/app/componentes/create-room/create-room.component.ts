@@ -20,6 +20,7 @@ export class CreateRoomComponent implements OnInit, OnDestroy {
   private roomId:String
   private size:number
   private type:String
+  private difficulty:String
 
   constructor(private rulesService: RulesService,
     private router:Router,
@@ -33,6 +34,7 @@ export class CreateRoomComponent implements OnInit, OnDestroy {
     this.roomId=""
     this.size = 6;
     this.type = 'PvPO';
+
     this.authService.getAuth().subscribe(auth => {
       if(auth){
         this.player1.name = auth.displayName;
@@ -54,7 +56,7 @@ export class CreateRoomComponent implements OnInit, OnDestroy {
     if(this.type === 'PvPO'){
       this.rulesService.createMatchPvPO({size:this.size,player1:this.player1,player2:this.player2,actPlayer:{uid:this.player1.uid,piece:0}}).subscribe(res=>{
         this.roomId = res.json().id;
-        this.matchService.createRoom({roomId:this.roomId,matrix:res.json().matrix,actualPlayer:{uid:this.player1.uid,piece:0}})
+        this.matchService.createRoom({roomId:this.roomId,matrix:res.json().matrix,actualPlayer:{uid:this.player1.uid,piece:0,points:[2,2]}})
         this.goRoom()
         this.flashMensaje.show('Debe esperar la conección del Player2',{cssClass: 'alert-danger', timeout: 4000});
       })
@@ -62,15 +64,16 @@ export class CreateRoomComponent implements OnInit, OnDestroy {
     else if(this.type === 'PvPL'){
       this.player2.uid=this.player1.uid
       this.rulesService.createMatchPvPL({size:this.size,player1:this.player1,player2:this.player2,actPlayer:{uid:this.player1.uid,piece:1}}).subscribe(res=>{
-        console.log("la crea")
+        //console.log("la crea")
         this.roomId = res.json().id;
-        this.matchService.createRoom({roomId:this.roomId,matrix:res.json().matrix,actualPlayer:{uid:this.player1.uid,piece:1}})
+        this.matchService.createRoom({roomId:this.roomId,matrix:res.json().matrix,actualPlayer:{uid:this.player1.uid,piece:1,points:[2,2]}})
         this.goRoom()
       })
     }
     else if(this.type === 'PvE'){
       this.rulesService.createMatchPvE({size:this.size,player1:this.player1,player2:this.player2,actPlayer:{uid:this.player1.uid,piece:1}}).subscribe(res=>{
-        this.matchService.createRoom({roomId:this.roomId,matrix:res.json().matrix})
+        this.roomId = res.json().id;
+        this.matchService.createRoom({roomId:this.roomId,matrix:res.json().matrix,actualPlayer:{uid:this.player1.uid,piece:1,points:[2,2]}})
         this.goRoom()
       })
     }
@@ -141,6 +144,11 @@ export class CreateRoomComponent implements OnInit, OnDestroy {
   }
   putType(type){
     this.type=type
+  }
+  putDifficulty(name,difficulty){
+    this.player2.name=name;
+    this.difficulty=difficulty
+    this.player2.uid='Computer'
   }
   putPiece(nPlayer,piece){
     if(nPlayer===1){

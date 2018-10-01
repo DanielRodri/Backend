@@ -22,6 +22,9 @@ export class RulesService {
   getUsers(id: any){
     return this.http.put(this.API_URL+'/getUsers/id',id);
   }
+  getPuntaje(id: any){
+    return this.http.put(this.API_URL+'/getPuntaje',id);
+  }
   getMatch(id: any){
     return this.http.put(this.API_URL+'/getMatch/id',id);
   }
