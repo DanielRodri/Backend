@@ -43,10 +43,11 @@ export class BoardComponent implements OnInit, OnChanges {
           let aux = res.json();  
           if(aux.validate){
             let auxActualPlayer={piece:this.user.piece,uid:this.user.uid}
-            this.rulesService.updateMatch({roomId:this.roomId,actualPlayer:auxActualPlayer,matrix:aux.matrix}).subscribe(res=>{
+            
               this.rulesService.getPuntaje({matrix:aux.matrix}).subscribe(points=>{
                 this.matchService.doMove({matrix:aux.matrix,actualPlayer:auxActualPlayer,roomId:this.roomId,points:points.json()})
               })
+              this.rulesService.updateMatch({roomId:this.roomId,actualPlayer:auxActualPlayer,matrix:aux.matrix}).subscribe(res=>{
             });
           }
           else{
@@ -75,11 +76,12 @@ export class BoardComponent implements OnInit, OnChanges {
             }
             //Esta linea es para cambiar de una vez en vez de esperar la respuesta, el problema es q lo recibe dos veces entonces ya que no se puede detener la respuesta
             //this.board=aux.matrix;
-            this.rulesService.updateMatch({roomId:this.roomId,actualPlayer:auxActualPlayer,matrix:aux.matrix}).subscribe(res=>{
+            
               this.rulesService.getPuntaje({matrix:aux.matrix}).subscribe(points=>{
                 //console.log(points.json())
                 this.matchService.doMove({matrix:aux.matrix,actualPlayer:auxActualPlayer,roomId:this.roomId,points:points.json()})
               })
+              this.rulesService.updateMatch({roomId:this.roomId,actualPlayer:auxActualPlayer,matrix:aux.matrix}).subscribe(res=>{
             });
             
           }

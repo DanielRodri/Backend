@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 export class MatchService {
   //https://othello-027.herokuapp.com
   private socket;
-  private url='http://localhost:3000';
+  private url='https://othello-027.herokuapp.com';
   /*ob1:Observable<any>
   ob2:Observable<any>
   ob3:Observable<any>
@@ -19,57 +19,8 @@ export class MatchService {
     console.log("se empezó un nuevo")
     //this.generateObservables();
   }
-  /*generateObservables(){
-    this.ob1= new Observable<any>(observer=>{
-      this.socket.on('joinChannel',(data)=>{
-          observer.next(data);
-      });
-      return () =>{this.socket.disconnect();}
-    });
-
-    this.ob2 = new Observable<any>(observer=>{
-      this.socket.on('didMove',(data)=>{
-         observer.next(data);
-      });
-      return () =>{this.socket.disconnect();}
-    });
-    
-    this.ob3= new Observable<any>(observer=>{
-      this.socket.on('nextPlayer',(data)=>{
-        observer.next(data);
-      });
-      return () =>{this.socket.disconnect();}
-    });
-
-    this.ob4 = new Observable<any>(observer=>{
-      this.socket.on('roomId',(data)=>{
-        observer.next(data);
-      });
-      return () =>{this.socket.disconnect();}
-    });
-
-    this.ob5 = new Observable<any>(observer=>{
-      this.socket.on('matches',(data)=>{
-        observer.next(data);
-      });
-      return () =>{this.socket.disconnect();}
-    });
-  }*/
-  checkJoinRoom(data){/*
-    this.socket.emit('checkJoinRoom',data)
-    const observable = new Observable<any>(observer=>{
-      //console.log("Crea un observer")
-     
-     this.socket.on('joinChannel',(data)=>{
-        observer.next(data);
-        //return data;
-     });
-     return () =>{this.socket.disconnect();}
-   });
-   return observable*/
-   /*return new Promise(function(resolve,reject){
-     
-   })*/
+  
+  checkJoinRoom(data){
    return new Promise(resolve=>{
     this.socket.emit('checkJoinRoom',data,function(res){
       resolve(res)
@@ -99,11 +50,30 @@ export class MatchService {
   doMove(data){
     return this.socket.emit('doMove',data)
   }
-  matrixReceived(){
-    
+  matchObservable(){
     const observable = new Observable<any>(observer=>{
       this.socket.on('didMove',(data)=>{
-         observer.next(data);
+         observer.next({data:data,evento:1});
+      });
+      this.socket.on('nextPlayer',(data)=>{
+        observer.next({data:data,evento:2});
+      });
+      this.socket.on('roomId',(data)=>{
+      observer.next({data:data,evento:3});
+      });
+      this.socket.on('points',(data)=>{
+        observer.next({data:data,evento:4});
+      });
+      return () =>{this.socket.disconnect();}
+    });
+    return observable
+    //return this.ob2
+    
+  }
+  matrixReceived(){
+    const observable = new Observable<any>(observer=>{
+      this.socket.on('didMove',(data)=>{
+         observer.next({data});
       });
       return () =>{this.socket.disconnect();}
     });
@@ -130,9 +100,9 @@ export class MatchService {
     return observable
     //return this.ob4
   }
-  availableMatches(){
+  pointsReceived(){
     const observable = new Observable<any>(observer=>{
-      this.socket.on('matches',(data)=>{
+      this.socket.on('points',(data)=>{
          observer.next(data);
       });
       return () =>{this.socket.disconnect();}
@@ -140,9 +110,9 @@ export class MatchService {
     return observable
     //return this.ob5
   }
-  pointsReceived(){
+  availableMatches(){
     const observable = new Observable<any>(observer=>{
-      this.socket.on('points',(data)=>{
+      this.socket.on('matches',(data)=>{
          observer.next(data);
       });
       return () =>{this.socket.disconnect();}

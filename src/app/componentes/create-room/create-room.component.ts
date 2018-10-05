@@ -58,7 +58,7 @@ export class CreateRoomComponent implements OnInit, OnDestroy {
         this.roomId = res.json().id;
         this.matchService.createRoom({roomId:this.roomId,matrix:res.json().matrix,actualPlayer:{uid:this.player1.uid,piece:0,points:[2,2]}})
         this.goRoom()
-        this.flashMensaje.show('Debe esperar la conección del Player2',{cssClass: 'alert-danger', timeout: 4000});
+        //this.flashMensaje.show('Debe esperar la conección del Player2',{cssClass: 'alert-danger', timeout: 4000});
       })
     }
     else if(this.type === 'PvPL'){

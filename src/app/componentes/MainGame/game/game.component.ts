@@ -48,7 +48,33 @@ export class GameComponent implements OnInit, OnDestroy{
     //this.subscription.unsubscribe();
   }
   assignObservers(){
-    let observer1=this.matchService.matrixReceived()
+    let allObservables=this.matchService.matchObservable()
+    .subscribe(data=>{
+      if(data!==undefined&&data!==null){
+        if(data.data!==undefined&&data.data!==null){
+          if(data.evento===1){
+            //matriz
+            this.matrix=data.data
+          }
+          else if(data.evento===2){
+            //actual
+            this.actualPlayer=data.data
+          }
+          else if(data.evento===3){
+            //room
+            this.roomId=data.data
+          }
+          else if(data.evento===4){
+            //points
+            this.putPoints(data.data)
+          }
+        }
+      }
+      if(this.roomId!==undefined){
+        this.prepareGame();
+      }
+    })
+    /*let observer1=this.matchService.matrixReceived()
     .subscribe(data=>{this.matrix=data})
     let observer2=this.matchService.playerReceived()
     .subscribe(data=>{
@@ -71,7 +97,8 @@ export class GameComponent implements OnInit, OnDestroy{
     this.subscription.add(observer1)
     this.subscription.add(observer2)
     this.subscription.add(observer3)
-    this.subscription.add(observer4)
+    this.subscription.add(observer4)*/
+    this.subscription.add(allObservables)
   }
   putPoints(data){
     if(this.user!==undefined){
